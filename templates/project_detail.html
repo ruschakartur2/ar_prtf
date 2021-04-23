@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <hr>
+    <br>
+    <h2 class="title" style="font-size:2.3rem;">{{ object.title }}</h2>
+    <div class="main">
+    <div class="left-side">
+        <img src="{{ object.image.url }}" alt="{{ object.title }}">
+    </div>
+    <div class="right-side">
+    <h3>Description:</h3>
+     <p> <i>{{ object.description }}</i> </p>
+     <h3>Technologies used in project: </h3>
+     <p style="color:orangered">{{ object.technologies_used }}</p>
+     <div class="buttons">
+     {% if object.demo_link %}
+        <a href="{{ object.demo_link }}">Demo</a>
+     {% endif %}
+
+    {% if object.source_link %}
+        <a href="{{ object.source_link }}">Source code</a>
+    {% endif %}
+
+     </div>
+     {% if request.user.is_authenticated %}
+                <div class="d-flex  mt-5">
+                <form action="{% url 'projects_delete' object.pk %}" method="post">
+                {% csrf_token %}
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                </form>
+                <a href="{% url 'project_update' object.pk %}" class="btn btn-primary ml-5">Update</a>
+                </div>
+      {% endif %}
+    </div>
+    </div>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <div class="addon">
+    <h2 class="title">Recent added</h2>
+    <div class="projects">
+    {% for last in lasted %}
+    <a href="{% url 'project_detail' last.pk %}">
+        <div class="project">
+            <img src="{{ last.image.url }}" alt="{{ last.title }}">
+            <h2>{{ last.title }}</h2>
+            <p>{{ last.technologies_used }}</p>
+        </div>
+        </a>
+    {% endfor %}
+    </div>
+    </div>
+{% endblock content %}

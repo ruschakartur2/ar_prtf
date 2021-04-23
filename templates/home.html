@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+     <h2 class="title">Projects with source code!</h2>
+    <hr>
+    <div class="projects">
+    {% for project in object_list %}
+        <a href="{% url 'project_detail' project.pk %}">
+        <div class="project">
+            <img src="{{ project.image.url }}" alt="{{ project.title }}">
+            <h2>{{ project.title }}</h2>
+            <p>{{ project.technologies_used }}</p>
+            {% if request.user.is_authenticated %}
+                <div class="d-flex justify-content-around">
+                <form action="{% url 'projects_delete' project.pk %}" method="post">
+                {% csrf_token %}
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                </form>
+                <a href="{% url 'project_update' project.pk %}" class="btn btn-primary">Update</a>
+                </div>
+            {% endif %}
+        </div>
+        </a>
+    {% endfor %}
+    </div>
+{% endblock content %}
