@@ -1,1 +1,1 @@
-web: gunicorn ar_prtf.wsgi --log-file -
+web: gunicorn ar_prtf.wsgi
